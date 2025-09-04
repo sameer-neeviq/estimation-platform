@@ -6,6 +6,7 @@ from app.db.database import engine
 from app.db.base import Base
 
 # Import routers
+from app.routers import base
 # from app.routers import auth, users, estimates
 
 app = FastAPI(
@@ -27,14 +28,7 @@ app.add_middleware(
 Base.metadata.create_all(bind=engine)
 
 # Include routers
+app.include_router(base.router, tags=["base-api"])
 # app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
 # app.include_router(users.router, prefix="/api/v1/users", tags=["users"])
 # app.include_router(estimates.router, prefix="/api/v1/estimates", tags=["estimates"])
-
-@app.get("/")
-async def root():
-    return {"message": "Welcome to Estimation Platform API"}
-
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy"}
